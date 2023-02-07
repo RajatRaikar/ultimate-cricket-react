@@ -125,7 +125,7 @@ const Login = () => {
             <h1>LOGIN</h1>
             <Input type="text" name="email" value={user.email} placeholder="Your Email" onChange={ handleChange }></Input><br></br>
             <Input type="password" name="password" value={user.password} placeholder="Your Password" onChange={ handleChange }></Input><br></br>
-            <Button onClick={login}> Login </Button>
+            <Button onClick={login}> Login </Button> <Button onClick={ () => { userNavigateHook('/register') }}> Back </Button>
           </LoginDiv>
         }
       </Wrapper>
