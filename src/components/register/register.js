@@ -30,6 +30,7 @@ const RegisterDiv = styled.div`
   justify-content: center;
   width: 30%;
   height: 50%;
+  margin-top: 100px;
 `
 
 const Input = styled.input`
