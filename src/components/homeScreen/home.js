@@ -6,7 +6,6 @@ import * as MatchSelectAnimation from "../../lotties-data/home-logo.json";
 
 import { Link, useNavigate } from "react-router-dom";
 
-
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
@@ -49,8 +48,6 @@ const Box3 = styled.div`
   grid-row-start: 3;
 `
 
-
-
 const Box4 = styled.div`
   /* display: flex;
   justify-content: center;
@@ -85,7 +82,7 @@ const Button = styled.button`
 `
 
 const Home = () => {
-  const userNavigateHook = useNavigate()
+  const userNavigateHook = useNavigate();
 
   return (
     <>
