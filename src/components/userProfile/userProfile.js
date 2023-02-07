@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from 'axios';
+import { Dna } from  'react-loader-spinner';
 
 import styled, {keyframes} from 'styled-components';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -7,7 +8,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Lottie from "lottie-react";
 import * as CoinAnimation from "../../lotties-data/coin.json";
 import { useState, useEffect } from "react";
-
 import { decodeToken } from "react-jwt";
 
 
@@ -18,8 +18,10 @@ const Wrapper = styled.div`
   grid-template-columns: 12fr 12fr 12fr;
   grid-template-rows: 15fr 250fr 200fr 150fr ;
   grid-gap: 10fr;
+  background-image: url(images/cricket.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
 `
-
 
 const Box1 = styled.div`
   display: flex;
@@ -153,18 +155,19 @@ const CoinAnimationDiv = styled.div`
   text-align: center;
   padding: 50px;
 `
- 
-
 
 const UserProfile = () => {
   const location = useLocation();
   const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
   
   const userNavigateHook = useNavigate();
   useEffect(() => {
+    setLoading(true);
     const res = decodeToken(localStorage.getItem('access_token'));
     console.log(res);
     Axios.get(`https://ultimate-cricket.onrender.com/user/detail?email=${res.email}`).then(res => {
+      setLoading(false);
       console.log(res.data);
       setUserData({
         email: res.data.response_data.user.email,
@@ -179,41 +182,48 @@ const UserProfile = () => {
     })
   }, []);
 
+  const userUpdate = () => {
+
+  }
+
   return (
     <>
       <Wrapper>
-        <Box1><img src={`images/${userData.profile}.png`} />
-        </Box1>
+        { loading ? <Box2> <Dna visible={true} height="80" color="#4fa94d" width="80" ariaLabel="dna-loading" wrapperStyle={{}} wrapperClass="dna-wrapper"/> </Box2> : 
+        <>
+          <Box1><img src={`images/${userData.profile}.png`} /></Box1>
 
-        <Box2>
-          <InputArea value={userData.name}></InputArea>
-          <Button onClick={() => alert('Hi DIVYA')}><UpdateImage src="images/update-icon.png" /></Button>
-        </Box2>
+          <Box2>
+            <InputArea value={userData.name}></InputArea>
+            <Button onClick={() => alert('Hi DIVYA')}><UpdateImage src="images/update-icon.png" /></Button>
+          </Box2>
 
-        <Box3>
-          <HeadLine>MATCH STATS</HeadLine>
-          <MatchStatsDiv>MATCH PLAYED: {userData.match_played}</MatchStatsDiv>
-          <MatchStatsDiv>MATCH WIN: {userData.match_wins}</MatchStatsDiv>
-          <MatchStatsDiv>WINNING PERCENTAGE:{ (userData.match_wins !== 0 && userData.match_played !== 0 ) ? ((userData.match_wins/userData.match_played) * 100 ) : 0 } </MatchStatsDiv>
-          <MatchStatsDiv>100's: {userData.fifty}</MatchStatsDiv>
-          <MatchStatsDiv>50's: {userData.hundred}</MatchStatsDiv>
-        </Box3>
+          <Box3>
+            <HeadLine>MATCH STATS</HeadLine>
+            <MatchStatsDiv>MATCH PLAYED: {userData.match_played}</MatchStatsDiv>
+            <MatchStatsDiv>MATCH WIN: {userData.match_wins}</MatchStatsDiv>
+            <MatchStatsDiv>WINNING PERCENTAGE:{ (userData.match_wins !== 0 && userData.match_played !== 0 ) ? ((userData.match_wins/userData.match_played) * 100 ) : 0 } </MatchStatsDiv>
+            <MatchStatsDiv>100's: {userData.fifty}</MatchStatsDiv>
+            <MatchStatsDiv>50's: {userData.hundred}</MatchStatsDiv>
+            <MatchStatsDiv>Coin: {userData.coin}</MatchStatsDiv>
+          </Box3>
 
-        <Box4>
-          <NavigateButton onClick={() => {
-            localStorage.removeItem('access_token');
-            userNavigateHook('/');
-          }}>LOGOUT</NavigateButton>
-          <NavigateButton onClick={() => { userNavigateHook('/home')}}>BACK</NavigateButton>
-        </Box4>
+          <Box4>
+            <NavigateButton onClick={() => {
+              localStorage.removeItem('access_token');
+              userNavigateHook('/');
+            }}>LOGOUT</NavigateButton>
+            <NavigateButton onClick={() => { userNavigateHook('/home')}}>BACK</NavigateButton>
+          </Box4>
 
-        <Box5>
-          <CoinAnimationDiv>
-            <h1>{userData.coin}</h1>
-            <Lottie animationData={CoinAnimation} loop={true}/>
-          </CoinAnimationDiv>
-          
-        </Box5>
+          {/* <Box5>
+            <CoinAnimationDiv>
+              <h1>{userData.coin}</h1>
+              <Lottie animationData={CoinAnimation} loop={true}/>
+            </CoinAnimationDiv>
+          </Box5> */}
+        </>
+      }
       </Wrapper>
     </>
   );
