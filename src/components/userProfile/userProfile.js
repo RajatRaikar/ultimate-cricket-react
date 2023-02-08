@@ -202,7 +202,7 @@ const UserProfile = () => {
             <HeadLine>MATCH STATS</HeadLine>
             <MatchStatsDiv>MATCH PLAYED: {userData.match_played}</MatchStatsDiv>
             <MatchStatsDiv>MATCH WIN: {userData.match_wins}</MatchStatsDiv>
-            <MatchStatsDiv>WINNING PERCENTAGE:{ (userData.match_wins !== 0 && userData.match_played !== 0 ) ? ((userData.match_wins/userData.match_played) * 100 ) : 0 } </MatchStatsDiv>
+            <MatchStatsDiv>WINNING PERCENTAGE:{ (userData.match_wins !== 0 ) ? Math.floor(((userData.match_wins/userData.match_played) * 100 )) : 0 } </MatchStatsDiv>
             <MatchStatsDiv>100's: {userData.fifty}</MatchStatsDiv>
             <MatchStatsDiv>50's: {userData.hundred}</MatchStatsDiv>
             <MatchStatsDiv>Coin: {userData.coin}</MatchStatsDiv>
